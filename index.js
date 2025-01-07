@@ -35,6 +35,7 @@ let printers2 = {
 
 export const printers = new Proxy(printers2, {
 	get (target, prop, receiver) {
+		// Does not even get called!
 		console.log(prop);
 
 		return target[prop];
