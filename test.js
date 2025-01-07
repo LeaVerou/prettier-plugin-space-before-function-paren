@@ -1,33 +1,32 @@
 
-import prettier from "prettier/index.mjs";
+import prettier from "prettier";
 
 // Custom Prettier config with your plugin
 const config = {
-	plugins: [new URL("./index.js", import.meta.url).pathname], // Resolve dynamically for ESM
+	plugins: ["./index.js"],
+	parser: "babel",
+	useTabs: true,
 };
 
 const t = {
 	run: arg => prettier.format(arg, config),
+	map: code => code + "\n",
 	tests: [
 		{
 			name: "Changed",
 			tests: [
 				{
-					arg: `function test(a, b) { return a + b; }`,
-					expect: `function test (a, b) { return a + b; }`,
+					arg: "function test(a, b) {\n\treturn a + b;\n}",
+					expect: "function test (a, b) {\n\treturn a + b;\n}",
 				},
 				{
-					arg: `class Foo {
-	method(a, b) { return a + b; }
-}`,
-					expect: `class Foo {
-	method (a, b) { return a + b; }
-}`,
+					arg: "class Foo {\n\tmethod(a, b) {\n\t\treturn a + b;\n\t}\n}",
+					expect: "class Foo {\n\tmethod (a, b) {\n\t\treturn a + b;\n\t}\n}",
 				},
 				{
 					name: "Anonymous function (Prettier default)",
-					arg: `const add = function(a, b) { return a + b; };`,
-					expect: `const add = function (a, b) { return a + b; };`,
+					arg: "const add = function(a, b) {\n\treturn a + b;\n};",
+					expect: "const add = function (a, b) {\n\treturn a + b;\n};",
 				}
 			]
 		},
@@ -51,21 +50,23 @@ const t = {
 
 export default t;
 
+// hTest is not currently working properly for promises
 for (let test in t.tests) {
 	let tests = t.tests[test];
-	console.log(`\n${tests.name}`);
 
 	for (let subtest in tests.tests) {
 		const st = tests.tests[subtest];
-		const result = await t.run(st.arg);
-		const passed = result === st.expect;
-		const name = st.name || subtest.arg;
+		const arg = st.arg + "\n";
+		const expect = st.expect + "\n";
+		const result = await t.run(arg);
+		const passed = result === expect;
 
 		if (passed) {
+			const name = st.name || st.arg;
 			console.log(`✅ ${name}` + (st.arg === st.expect ? ' (unchanged)' : ''));
 		}
 		else {
-			console.log(`❌ ${name}: Got ${result}, expected ${st.expect}`);
+			console.log(`❌ ${st.name ? st.name + ": " : ""}Got ${st.arg === result ? 'no change' : result}, expected ${st.expect}`);
 		}
 	}
 }
