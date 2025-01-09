@@ -6,7 +6,7 @@
     ".": "./index.js"
   },
   "scripts": {
-    "test": "htest test.mjs"
+    "test": "htest test.js"
   },
   "keywords": [],
   "author": "Lea Verou",
@@ -14,7 +14,7 @@
   "type": "module",
   "description": "",
   "devDependencies": {
-    "htest.dev": "^0.0.16",
+    "htest.dev": "latest",
     "prettier": "^3.4.2"
   },
   "peerDependencies": {

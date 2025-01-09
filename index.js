@@ -1,43 +1,58 @@
+import babelPlugin from "prettier/plugins/babel";
+import estreePlugin from "prettier/plugins/estree";
 import { builders } from "prettier/doc";
-// import { parsers as babelParsers } from 'prettier/plugins/babel';
-// import { parsers as flowParsers } from 'prettier/plugins/flow';
-// import { parsers as htmlParsers } from 'prettier/plugins/html';
-// import { parsers as typescriptParsers } from 'prettier/plugins/typescript';
 
-// Plugin Metadata
-export const languages = [
-	{
-		name: "JavaScript",
-		parsers: ["babel", "babel-ts", "typescript", "espree", "meriyah"],
-	},
-];
-
-let printers2 = {
-	"babel": {
-		print(path, options, print) {
-			const node = path.getValue();
-			console.log("node", node);
-
-			// Handle function declarations and method definitions only
-			if (
-				(node.type === "FunctionDeclaration" || node.type === "MethodDefinition") &&
-				node.id // Must be a named function
-			) {
-				// Insert space before the opening parenthesis
-				return builders.concat([node.id.name, " ("]);
-			}
-
-			// Default behavior for all other nodes
-			return path.call(print);
-		},
+export const parsers = {
+	babel: {
+		...babelPlugin.parsers.babel,
+		astFormat: "estree",
 	},
 };
 
-export const printers = new Proxy(printers2, {
-	get (target, prop, receiver) {
-		// Does not even get called!
-		console.log(prop);
+export const printers = {
+	"estree": {
+		print (path, options, print) {
+			const node = path.getValue();
 
-		return target[prop];
-	}
-});
+			if (
+				["FunctionDeclaration", "FunctionExpression", "ClassMethod"].includes(node.type) &&
+				node.type !== "ArrowFunctionExpression"
+			) {
+				const parts = [];
+
+				// Add appropriate prefix
+				if (node.type === "ClassMethod" && node.kind !== "method") {
+					// get, set, static
+					parts.push(node.kind, " ");
+				}
+				else if (node.type === "FunctionDeclaration") {
+					parts.push("function ");
+				}
+				else if (node.type === "FunctionExpression") {
+					parts.push("function");
+				}
+
+				// Add name if present
+				if (node.type === "ClassMethod") {
+					parts.push(path.call(print, "key"));
+				}
+				else if (node.id) {
+					parts.push(node.id.name);
+				}
+
+				// Add parameters and body with consistent spacing
+				const params = builders.join(
+					builders.concat([",", " "]),
+					path.map(print, "params")
+				);
+
+				parts.push(" (", params, ") ", path.call(print, "body"));
+
+				return builders.concat(parts);
+			}
+
+			// Fallback to original printer for all other nodes
+			return estreePlugin.printers.estree.print(path, options, print);
+		}
+	},
+};

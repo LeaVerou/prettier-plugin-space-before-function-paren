@@ -1,16 +1,15 @@
-
 import prettier from "prettier";
 
-// Custom Prettier config with your plugin
+// Custom Prettier config with our plugin
 const config = {
 	plugins: ["./index.js"],
 	parser: "babel",
 	useTabs: true,
 };
 
-const t = {
+export default {
 	run: arg => prettier.format(arg, config),
-	map: code => code + "\n",
+	map: code => code.endsWith("\n") ? code : code + "\n", // Append a new line to the expected value (the actual result already has one)
 	tests: [
 		{
 			name: "Changed",
@@ -22,6 +21,11 @@ const t = {
 				{
 					arg: "class Foo {\n\tmethod(a, b) {\n\t\treturn a + b;\n\t}\n}",
 					expect: "class Foo {\n\tmethod (a, b) {\n\t\treturn a + b;\n\t}\n}",
+				},
+				{
+					name: "Getters and Setters",
+					arg: "class Foo {\n\tget method() {\n\t\treturn true;\n\t}\n}",
+					expect: "class Foo {\n\tget method () {\n\t\treturn true;\n\t}\n}",
 				},
 				{
 					name: "Anonymous function (Prettier default)",
@@ -46,27 +50,4 @@ const t = {
 			]
 		}
 	]
-}
-
-export default t;
-
-// hTest is not currently working properly for promises
-for (let test in t.tests) {
-	let tests = t.tests[test];
-
-	for (let subtest in tests.tests) {
-		const st = tests.tests[subtest];
-		const arg = st.arg + "\n";
-		const expect = st.expect + "\n";
-		const result = await t.run(arg);
-		const passed = result === expect;
-
-		if (passed) {
-			const name = st.name || st.arg;
-			console.log(`✅ ${name}` + (st.arg === st.expect ? ' (unchanged)' : ''));
-		}
-		else {
-			console.log(`❌ ${st.name ? st.name + ": " : ""}Got ${st.arg === result ? 'no change' : result}, expected ${st.expect}`);
-		}
-	}
 }
