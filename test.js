@@ -20,9 +20,24 @@ export default {
 					expect: "function test (a, b) {\n\treturn a + b;\n}",
 				},
 				{
+					name: "Async function declaration",
+					arg: "async function test(a, b) {\n\treturn a + b;\n}",
+					expect: "async function test (a, b) {\n\treturn a + b;\n}",
+				},
+				{
 					name: "Class methods",
 					arg: "class Foo {\n\tmethod(a, b) {\n\t\treturn a + b;\n\t}\n}",
 					expect: "class Foo {\n\tmethod (a, b) {\n\t\treturn a + b;\n\t}\n}",
+				},
+				{
+					name: "Async class methods",
+					arg: "class Foo {\n\tasync method(a, b) {\n\t\treturn a + b;\n\t}\n}",
+					expect: "class Foo {\n\tasync method (a, b) {\n\t\treturn a + b;\n\t}\n}",
+				},
+				{
+					name: "Static class methods",
+					arg: "class Foo {\n\static method(a, b) {\n\t\treturn a + b;\n\t}\n}",
+					expect: "class Foo {\n\static method (a, b) {\n\t\treturn a + b;\n\t}\n}",
 				},
 				{
 					name: "Class getters",
@@ -33,6 +48,11 @@ export default {
 					name: "Class setters",
 					arg: "class Foo {\n\tset foo(value) {\n\t\tthis._foo = value;\n\t}\n}",
 					expect: "class Foo {\n\tset foo (value) {\n\t\tthis._foo = value;\n\t}\n}",
+				},
+				{
+					name: "Generator functions",
+					arg: `function* test() {\n\tyield 1;\n}`,
+					expect: `function* test() {\n\tyield 1;\n}`,
 				},
 			]
 		},
@@ -50,7 +70,7 @@ export default {
 					expect: `const add = (a, b) => a + b;`,
 				},
 				{
-					name: "Anonymous function",
+					name: "Anonymous functions",
 					description: "Prettier already handles this case.",
 					arg: "const add = function(a, b) {\n\treturn a + b;\n};",
 					expect: "const add = function (a, b) {\n\treturn a + b;\n};",
