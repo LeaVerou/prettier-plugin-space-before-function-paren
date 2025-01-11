@@ -3,6 +3,9 @@
 A prettier plugin to add a space before function parentheses for function definitions (but not function calls) in JS.
 **Requires Prettier 3.0.0 or later.**
 
+> [!CAUTION]
+> Work in Progress. Published in case others want to help. Do not use until [#2](https://github.com/LeaVerou/prettier-plugin-space-before-function-paren/issues/2) is resolved!
+
 ## Installation
 
 ```
@@ -25,3 +28,7 @@ All you need to do is actually include it in your Prettier config:
 ## Status
 
 Current version is a proof of concept, please try it out and give feedback!
+
+Things not handled yet:
+- Generators
+-
