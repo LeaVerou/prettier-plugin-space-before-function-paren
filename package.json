@@ -6,10 +6,19 @@
     ".": "./index.js"
   },
   "scripts": {
+    "build": "node _build/update-readme.js",
     "test": "htest test.js"
   },
   "keywords": [],
   "author": "Lea Verou",
+  "contributors": [
+    "Lea Verou",
+    "Dmitry Sharabin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeaVerou/prettier-plugin-space-before-function-paren.git"
+  },
   "license": "MIT",
   "type": "module",
   "description": "",
