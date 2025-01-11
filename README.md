@@ -2,164 +2,220 @@
 # prettier-plugin-space-before-function-paren
 
 A prettier plugin to add a space before function parentheses for function definitions (but not function calls) in JS.
-Requires Prettier 3.0.0 or later.
+**Requires Prettier 3.0.0 or later.**
 
-Current version is a proof of concept, please try it out and give feedback!
+## Installation
 
-## Examples of what this plugin changes
+```
+npm install -D prettier prettier-plugin-brace-style
+```
+
+## Configuration
+
+There are no config options for this plugin.
+All you need to do is actually include it in your Prettier config:
+
+```json
+{
+	"plugins": ["prettier-plugin-space-before-function-paren"]
+}
+```
+
+## What this plugin changes
 
 ### Function declaration
 
-
-
 ```js
-
 function test(a, b) {
 	return a + b;
 }
-
 ```
 
 becomes:
 
 ```js
-
 function test (a, b) {
 	return a + b;
 }
-
 ```
-### Class methods
 
-
+### Async function declaration
 
 ```js
+async function test(a, b) {
+	return a + b;
+}
+```
 
+becomes:
+
+```js
+async function test (a, b) {
+	return a + b;
+}
+```
+
+### Class methods
+
+```js
 class Foo {
 	method(a, b) {
 		return a + b;
 	}
 }
-
 ```
 
 becomes:
 
 ```js
-
 class Foo {
 	method (a, b) {
 		return a + b;
 	}
 }
-
 ```
+
+### Async class methods
+
+```js
+class Foo {
+	async method(a, b) {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+	async method (a, b) {
+		return a + b;
+	}
+}
+```
+
+### Static class methods
+
+```js
+class Foo {
+static method(a, b) {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+static method (a, b) {
+		return a + b;
+	}
+}
+```
+
 ### Class getters
 
-
-
 ```js
-
 class Foo {
-	get method() {
+	get foo() {
 		return true;
 	}
 }
-
 ```
 
 becomes:
 
 ```js
-
 class Foo {
-	get method () {
+	get foo () {
 		return true;
 	}
 }
-
 ```
+
 ### Class setters
 
-
-
 ```js
-
 class Foo {
-	set method() {
-		return true;
+	set foo(value) {
+		this._foo = value;
 	}
 }
-
 ```
 
 becomes:
 
 ```js
-
 class Foo {
-	set method () {
-		return true;
+	set foo (value) {
+		this._foo = value;
 	}
 }
-
 ```
 
-## Examples of what remains unchanged
+### Generator functions
+
+```js
+function* test() {
+	yield 1;
+}
+```
+
+becomes:
+
+```js
+function* test() {
+	yield 1;
+}
+```
+
+
+## What remains unchanged
 
 ### Function calls
 
-
-
 ```js
-
 test(1, 2);
-
 ```
 
 becomes:
 
 ```js
-
 test(1, 2);
-
 ```
+
 ### Arrow function
 
-
-
 ```js
-
 const add = (a, b) => a + b;
-
 ```
 
 becomes:
 
 ```js
-
 const add = (a, b) => a + b;
-
 ```
-### Anonymous function
 
+### Anonymous functions
 Prettier already handles this case.
 
 ```js
-
 const add = function(a, b) {
 	return a + b;
 };
-
 ```
 
 becomes:
 
 ```js
-
 const add = function (a, b) {
 	return a + b;
 };
-
 ```
 
+
+## Status
+
+Current version is a proof of concept, please try it out and give feedback!
