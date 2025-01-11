@@ -24,7 +24,8 @@
   "description": "",
   "devDependencies": {
     "htest.dev": "latest",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "release-it": "^18.1.1"
   },
   "peerDependencies": {
     "prettier": ">=3.0.0"
