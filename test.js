@@ -12,7 +12,7 @@ export default {
 	map: code => code.endsWith("\n") ? code : code + "\n", // Append a new line to the expected value (the actual result already has one)
 	tests: [
 		{
-			name: "Changed",
+			name: "What this plugin changes",
 			tests: [
 				{
 					name: "Function declaration",
@@ -34,15 +34,10 @@ export default {
 					arg: "class Foo {\n\tset method() {\n\t\treturn true;\n\t}\n}",
 					expect: "class Foo {\n\tset method () {\n\t\treturn true;\n\t}\n}",
 				},
-				{
-					name: "Anonymous function (Prettier default)",
-					arg: "const add = function(a, b) {\n\treturn a + b;\n};",
-					expect: "const add = function (a, b) {\n\treturn a + b;\n};",
-				}
 			]
 		},
 		{
-			name: "Unchanged",
+			name: "What remains unchanged",
 			tests: [
 				{
 					name: "Function calls",
@@ -53,7 +48,13 @@ export default {
 					name: "Arrow function",
 					arg: `const add = (a, b) => a + b;`,
 					expect: `const add = (a, b) => a + b;`,
-				}
+				},
+				{
+					name: "Anonymous function",
+					description: "Prettier already handles this case.",
+					arg: "const add = function(a, b) {\n\treturn a + b;\n};",
+					expect: "const add = function (a, b) {\n\treturn a + b;\n};",
+				},
 			]
 		}
 	]
