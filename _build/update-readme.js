@@ -1,26 +1,35 @@
 import tests from "../test.js";
 import fs from "fs";
 
-let content = tests.tests.map(category => {
-	return [
-		`## Examples of ${ category.name.toLowerCase() }\n`,
-		...category.tests.map(test => {
-			return [
-				"### " + test.name,
-				test.description || "",
-				"```js",
-				test.arg,
-				"```",
-				"becomes:",
-				"```js",
-				test.expect,
-				"```"
-			].join("\n\n");
-		})
-	].join("\n");
+const TEMPLATE_CATEGORY = (title, examples) =>
+`## ${ title }
+
+${ examples.join("\n") }`;
+
+const TEMPLATE_EXAMPLE = (title, description, input, output) =>
+`### ${ title }${ description ? "\n" + description : "" }
+
+\`\`\`js
+${ input }
+\`\`\`
+
+becomes:
+
+\`\`\`js
+${ output }
+\`\`\`
+`;
+
+let content = tests.tests.flatMap(category => {
+	let examples = category.tests.map(test => TEMPLATE_EXAMPLE(
+		test.name,
+		test.description,
+		test.arg,
+		test.expect,
+	));
+
+	return TEMPLATE_CATEGORY(category.name, examples);
 });
-
-
 
 let readme = fs.readFileSync("README.src.md", "utf8");
 
