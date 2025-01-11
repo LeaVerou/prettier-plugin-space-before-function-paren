@@ -15,17 +15,24 @@ export default {
 			name: "Changed",
 			tests: [
 				{
+					name: "Function declaration",
 					arg: "function test(a, b) {\n\treturn a + b;\n}",
 					expect: "function test (a, b) {\n\treturn a + b;\n}",
 				},
 				{
+					name: "Class methods",
 					arg: "class Foo {\n\tmethod(a, b) {\n\t\treturn a + b;\n\t}\n}",
 					expect: "class Foo {\n\tmethod (a, b) {\n\t\treturn a + b;\n\t}\n}",
 				},
 				{
-					name: "Getters and Setters",
+					name: "Class getters",
 					arg: "class Foo {\n\tget method() {\n\t\treturn true;\n\t}\n}",
 					expect: "class Foo {\n\tget method () {\n\t\treturn true;\n\t}\n}",
+				},
+				{
+					name: "Class setters",
+					arg: "class Foo {\n\tset method() {\n\t\treturn true;\n\t}\n}",
+					expect: "class Foo {\n\tset method () {\n\t\treturn true;\n\t}\n}",
 				},
 				{
 					name: "Anonymous function (Prettier default)",
