@@ -102,7 +102,7 @@ class Foo {
 
 ```js
 class Foo {
-static method(a, b) {
+	static method(a, b) {
 		return a + b;
 	}
 }
@@ -112,7 +112,7 @@ becomes:
 
 ```js
 class Foo {
-static method (a, b) {
+	static method (a, b) {
 		return a + b;
 	}
 }
@@ -169,7 +169,7 @@ function* test() {
 becomes:
 
 ```js
-function* test() {
+function* test () {
 	yield 1;
 }
 ```

@@ -36,8 +36,8 @@ export default {
 				},
 				{
 					name: "Static class methods",
-					arg: "class Foo {\n\static method(a, b) {\n\t\treturn a + b;\n\t}\n}",
-					expect: "class Foo {\n\static method (a, b) {\n\t\treturn a + b;\n\t}\n}",
+					arg: "class Foo {\n\tstatic method(a, b) {\n\t\treturn a + b;\n\t}\n}",
+					expect: "class Foo {\n\tstatic method (a, b) {\n\t\treturn a + b;\n\t}\n}",
 				},
 				{
 					name: "Class getters",
@@ -52,7 +52,7 @@ export default {
 				{
 					name: "Generator functions",
 					arg: `function* test() {\n\tyield 1;\n}`,
-					expect: `function* test() {\n\tyield 1;\n}`,
+					expect: `function* test () {\n\tyield 1;\n}`,
 				},
 			]
 		},
