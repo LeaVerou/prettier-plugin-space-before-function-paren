@@ -10,49 +10,65 @@ export const parsers = {
 };
 
 export const printers = {
-	"estree": {
+	estree: {
 		print (path, options, print) {
 			const node = path.getValue();
 
-			if (
-				["FunctionDeclaration", "FunctionExpression", "ClassMethod"].includes(node.type) &&
-				node.type !== "ArrowFunctionExpression"
-			) {
-				const parts = [];
-
-				// Add appropriate prefix
-				if (node.type === "ClassMethod" && node.kind !== "method") {
-					// get, set, static
-					parts.push(node.kind, " ");
-				}
-				else if (node.type === "FunctionDeclaration") {
-					parts.push("function ");
-				}
-				else if (node.type === "FunctionExpression") {
-					parts.push("function");
-				}
-
-				// Add name if present
-				if (node.type === "ClassMethod") {
-					parts.push(path.call(print, "key"));
-				}
-				else if (node.id) {
-					parts.push(node.id.name);
-				}
-
-				// Add parameters and body with consistent spacing
-				const params = builders.join(
-					builders.concat([",", " "]),
-					path.map(print, "params")
-				);
-
-				parts.push(" (", params, ") ", path.call(print, "body"));
-
-				return builders.concat(parts);
+			if (!["FunctionDeclaration", "FunctionExpression", "ClassMethod"].includes(node.type)) {
+				return estreePlugin.printers.estree.print(path, options, print);
 			}
 
-			// Fallback to original printer for all other nodes
-			return estreePlugin.printers.estree.print(path, options, print);
-		}
+			const parts = [];
+
+			// Handle async keyword
+			if (node.async) {
+				parts.push("async ");
+			}
+
+			// Handle static keyword for class methods
+			if (node.type === "ClassMethod" && node.static) {
+				parts.push("static ");
+			}
+
+			// Add appropriate prefix
+			if (node.type === "ClassMethod" && node.kind !== "method") {
+				// get, set
+				parts.push(node.kind, " ");
+			}
+			else if (node.type === "FunctionDeclaration") {
+				parts.push("function");
+				// Add generator asterisk with spaces
+				if (node.generator) {
+					parts.push("* ");
+				}
+				else {
+					parts.push(" ");
+				}
+			}
+			else if (node.type === "FunctionExpression") {
+				parts.push("function");
+				if (node.generator) {
+					parts.push("*");
+				}
+			}
+
+			// Add name if present
+			if (node.type === "ClassMethod") {
+				parts.push(path.call(print, "key"));
+			}
+			else if (node.id) {
+				parts.push(node.id.name);
+			}
+
+			// Add parameters and body with consistent spacing
+			const params = builders.join(
+				builders.concat([",", " "]),
+				path.map(print, "params"),
+			);
+
+			parts.push(" (", params, ") ", path.call(print, "body"));
+
+			return builders.concat(parts);
+		},
 	},
 };
