@@ -5,7 +5,7 @@ A prettier plugin to add a space before function parentheses for function defini
 **Requires Prettier 3.0.0 or later.**
 
 > [!CAUTION]
-> Work in Progress. Published in case others want to help. Do not use until [#2](https://github.com/LeaVerou/prettier-plugin-space-before-function-paren/issues/2) is resolved!
+> Work in Progress. Published in case others want to help.
 
 ## Installation
 
@@ -222,7 +222,3 @@ const add = function (a, b) {
 ## Status
 
 Current version is a proof of concept, please try it out and give feedback!
-
-Things not handled yet:
-- Generators
--
