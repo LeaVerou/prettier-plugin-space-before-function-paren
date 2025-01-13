@@ -7,7 +7,7 @@ A prettier plugin to add a space before function parentheses for function defini
 ## Installation
 
 ```
-npm install -D prettier prettier-plugin-brace-style
+npm install -D prettier prettier-plugin-space-before-function-paren
 ```
 
 ## Configuration
