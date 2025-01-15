@@ -2,10 +2,7 @@ import babelPlugin from "prettier/plugins/babel";
 import estreePlugin from "prettier/plugins/estree";
 
 export const parsers = {
-	babel: {
-		...babelPlugin.parsers.babel,
-		astFormat: "estree",
-	},
+	...babelPlugin.parsers,
 };
 
 export const printers = {
