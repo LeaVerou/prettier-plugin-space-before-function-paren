@@ -7,6 +7,9 @@ export const parsers = {
 
 export const printers = {
 	estree: {
+		// Inherit all default estree printer behavior (comment handling, etc.)
+		...estreePlugin.printers.estree,
+
 		print (path, options, print) {
 			let node = path.getValue();
 
@@ -19,33 +22,6 @@ export const printers = {
 			}
 
 			return estreePlugin.printers.estree.print(path, options, print);
-		},
-
-		// Comments are not part of an AST and are handled separately
-		// See https://prettier.io/docs/en/plugins#handling-comments-in-a-printer
-		printComment (commentPath, options) {
-			return estreePlugin.printers.estree.printComment(commentPath, options);
-		},
-
-		canAttachComment (node) {
-			return node.type && node.type !== "Comment";
-		},
-
-		isBlockComment (node) {
-			return node.type === "CommentBlock";
-		},
-
-		// Use Prettier's default comment attachment algorithm
-		handleComments: {
-			ownLine (comment, text, options, ast, isLastComment) {
-				return false;
-			},
-			endOfLine (comment, text, options, ast, isLastComment) {
-				return false;
-			},
-			remaining (comment, text, options, ast, isLastComment) {
-				return false;
-			},
 		},
 	},
 };
