@@ -21,6 +21,9 @@ All you need to do is actually include it in your Prettier config:
 }
 ```
 
+> [!IMPORTANT]
+> Due to Prettier limitations, to use this plugin with other plugins formatting JS code, install the [prettier-plugin-merge](https://github.com/ony3000/prettier-plugin-merge) plugin and *add it to the end* of your `plugins` array. This plugin will be used last and preserve changes made by the previous plugins.
+
 ## What this plugin changes
 
 ### Function declaration
