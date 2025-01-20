@@ -1,8 +1,10 @@
 import babelPlugin from "prettier/plugins/babel";
 import estreePlugin from "prettier/plugins/estree";
+import typescriptPlugin from "prettier/plugins/typescript";
 
 export const parsers = {
 	...babelPlugin.parsers,
+	...typescriptPlugin.parsers,
 };
 
 export const printers = {
@@ -12,12 +14,29 @@ export const printers = {
 
 		print (path, options, print) {
 			let node = path.getValue();
+			let parent = path.getParentNode();
 
-			if (["FunctionDeclaration", "FunctionExpression", "ClassMethod"].includes(node.type)) {
-				// Add space to either the function name or class method name
-				node = node.id ?? node.key;
-				if (node?.name) {
-					node.name += " ";
+			if ([
+				// JavaScript node types
+				"FunctionDeclaration",
+				"FunctionExpression",
+				"ObjectMethod",
+				"MethodDefinition",
+				"ClassMethod",
+				// TypeScript node types
+				"TSMethodSignature",
+			].includes(node.type) || 
+			// Handle object methods in TypeScript
+			(node.type === "Identifier" && parent?.type === "Property" && (parent.method || parent.kind))) {
+				if (node.typeParameters) {
+					// TODO: Add space after the closing bracket
+					// We should get `foo<T> () {...}`, not `foo <T> {...}`
+				}
+				else {
+					node = node.type === "Identifier" ? node : node.id ?? node.key;
+					if (node?.name) {
+						node.name += " ";
+					}
 				}
 			}
 

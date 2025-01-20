@@ -4,31 +4,34 @@ import fs from "fs";
 const TEMPLATE_CATEGORY = (title, examples) =>
 `## ${ title }
 
-${ examples.join("\n") }`;
+${ examples.filter(Boolean).join("\n") }`;
 
-const TEMPLATE_EXAMPLE = (title, description, input, output) =>
+const TEMPLATE_EXAMPLE = (title, description, input, output, ts = false) =>
 `### ${ title }${ description ? "\n" + description : "" }
 
-\`\`\`js
+\`\`\`${ ts ? "ts" : "js" }
 ${ input }
 \`\`\`
 
 becomes:
 
-\`\`\`js
+\`\`\`${ ts ? "ts" : "js" }
 ${ output }
 \`\`\`
 `;
 
-let content = tests.tests.flatMap(category => {
-	let examples = category.tests.map(test => TEMPLATE_EXAMPLE(
-		test.name,
-		test.description,
-		test.arg,
-		test.expect,
-	));
-
-	return TEMPLATE_CATEGORY(category.name, examples);
+let content = tests.tests.flatMap(language => {
+	return language.tests.map(category => {
+		let examples = category.tests.map(test => !test.skip && TEMPLATE_EXAMPLE(
+			test.name,
+			test.description,
+			test.arg,
+			test.expect,
+			language.name === "TypeScript"
+		));
+	
+		return TEMPLATE_CATEGORY(category.name + " in " + language.name, examples);
+	});
 });
 
 let readme = fs.readFileSync("README.src.md", "utf8");
