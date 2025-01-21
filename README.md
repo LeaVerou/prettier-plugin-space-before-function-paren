@@ -276,6 +276,70 @@ function* test () {
 }
 ```
 
+### Named exported functions
+
+```js
+export function test(a, b) {
+	return a + b;
+}
+```
+
+becomes:
+
+```js
+export function test (a, b) {
+	return a + b;
+}
+```
+
+### Default exported functions
+
+```js
+export default function test(a, b) {
+	return a + b;
+}
+```
+
+becomes:
+
+```js
+export default function test (a, b) {
+	return a + b;
+}
+```
+
+### Async exported functions
+
+```js
+export async function test(a, b) {
+	return a + b;
+}
+```
+
+becomes:
+
+```js
+export async function test (a, b) {
+	return a + b;
+}
+```
+
+### Generator exported functions
+
+```js
+export function* test() {
+	yield 1;
+}
+```
+
+becomes:
+
+```js
+export function* test () {
+	yield 1;
+}
+```
+
 
 ## What remains unchanged in JavaScript
 
@@ -517,6 +581,82 @@ class Foo {
 }
 ```
 
+### Abstract class methods
+
+```ts
+abstract class Foo {
+	abstract method(a: number, b: number): number;
+}
+```
+
+becomes:
+
+```ts
+abstract class Foo {
+	abstract method (a: number, b: number): number;
+}
+```
+
+### Private class methods
+
+```ts
+class Foo {
+	private method(a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	private method (a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+### Protected class methods
+
+```ts
+class Foo {
+	protected method(a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	protected method (a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+### Public class methods
+
+```ts
+class Foo {
+	public method(a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	public method (a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
 ### Class getters
 
 ```ts
@@ -587,6 +727,102 @@ becomes:
 interface Foo {
 	method (a: number, b: number): number;
 }
+```
+
+### Named exported functions
+
+```ts
+export function test(a: number, b: number): number {
+	return a + b;
+}
+```
+
+becomes:
+
+```ts
+export function test (a: number, b: number): number {
+	return a + b;
+}
+```
+
+### Default exported functions
+
+```ts
+export default function test(a: number, b: number): number {
+	return a + b;
+}
+```
+
+becomes:
+
+```ts
+export default function test (a: number, b: number): number {
+	return a + b;
+}
+```
+
+### Async exported functions
+
+```ts
+export async function test(a: number, b: number): Promise<number> {
+	return a + b;
+}
+```
+
+becomes:
+
+```ts
+export async function test (a: number, b: number): Promise<number> {
+	return a + b;
+}
+```
+
+### Generator exported functions
+
+```ts
+export function* test(): Generator<number> {
+	yield 1;
+}
+```
+
+becomes:
+
+```ts
+export function* test (): Generator<number> {
+	yield 1;
+}
+```
+
+### Exported function in namespace
+
+```ts
+declare namespace Foo {
+	export function test(a: number, b: number): number;
+}
+```
+
+becomes:
+
+```ts
+declare namespace Foo {
+	export function test (a: number, b: number): number;
+}
+```
+
+### Function type aliases
+
+```ts
+type MethodType = {
+	method(): void;
+};
+```
+
+becomes:
+
+```ts
+type MethodType = {
+	method (): void;
+};
 ```
 
 
@@ -664,3 +900,4 @@ Current version is a proof of concept, please try it out and give feedback!
 
 Things not handled yet:
 - Function with type parameters (a.k.a. generic functions)
+- Computed method names (in classes and objects)

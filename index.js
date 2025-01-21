@@ -25,11 +25,14 @@ export const printers = {
 				"ClassMethod",
 				// TypeScript node types
 				"TSMethodSignature",
+				"TSDeclareFunction",
+				"TSAbstractMethodDefinition",
 			].includes(node.type) || 
 			// Handle object methods in TypeScript
 			(node.type === "Identifier" && parent?.type === "Property" && (parent.method || parent.kind))) {
-				if (node.typeParameters) {
-					// TODO: Add space after the closing bracket
+				if (node.typeParameters || node.computed) {
+					// TODO: Add space after the closing bracket, not name
+					// We should get `[methodName] () {...}`, not `[methodName ] () {...}`
 					// We should get `foo<T> () {...}`, not `foo <T> {...}`
 				}
 				else {
