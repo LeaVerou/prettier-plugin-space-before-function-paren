@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-space-before-function-paren",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "index.js",
   "exports": {
     ".": "./index.js"
