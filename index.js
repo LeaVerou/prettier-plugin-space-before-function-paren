@@ -29,11 +29,12 @@ export const printers = {
 				"TSAbstractMethodDefinition",
 			].includes(node.type) || 
 			// Handle object methods in TypeScript
-			(node.type === "Identifier" && parent?.type === "Property" && (parent.method || parent.kind))) {
-				if (node.typeParameters || node.computed) {
-					// TODO: Add space after the closing bracket, not name
+			(node.type === "Identifier" && parent?.type === "Property" && (parent.method || parent.kind === "get" || parent.kind === "set"))) {
+				if (node.typeParameters || node.computed || node.optional) {
+					// TODO: Add space after the closing bracket and/or question mark, not name
 					// We should get `[methodName] () {...}`, not `[methodName ] () {...}`
 					// We should get `foo<T> () {...}`, not `foo <T> {...}`
+					// We should get `foo? () {...}`, not `foo ?() {...}`
 				}
 				else {
 					node = node.type === "Identifier" ? node : node.id ?? node.key;

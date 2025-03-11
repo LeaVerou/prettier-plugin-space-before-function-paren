@@ -228,6 +228,12 @@ export default {
 							expect: "class Foo {\n\tpublic method (a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
 						},
 						{
+							name: "Optional class methods",
+							arg: "class Foo {\n\tmethod?(a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
+							expect: "class Foo {\n\tmethod? (a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
+							skip: true,
+						},
+						{
 							name: "Class getters",
 							arg: "class Foo {\n\tget foo(): boolean {\n\t\treturn true;\n\t}\n}",
 							expect: "class Foo {\n\tget foo (): boolean {\n\t\treturn true;\n\t}\n}",
@@ -241,6 +247,12 @@ export default {
 							name: "Computed class methods",
 							arg: "class Foo {\n\t[methodName](): void {}\n}",
 							expect: "class Foo {\n\t[methodName] (): void {}\n}",
+							skip: true,
+						},
+						{
+							name: "Class methods with type parameters",
+							arg: "class Foo {\n\tmethod<T>(a: T): T {\n\t\treturn a;\n\t}\n}",
+							expect: "class Foo {\n\tmethod<T> (a: T): T {\n\t\treturn a;\n\t}\n}",
 							skip: true,
 						},
 						{
@@ -319,6 +331,11 @@ export default {
 							name: "Function types",
 							arg: "type Func = { (a: string): number };",
 							expect: "type Func = { (a: string): number };",
+						},
+						{
+							name: "Object literal",
+							arg: "let a = { value: null, prev: null, next: null as never };",
+							expect: "let a = { value: null, prev: null, next: null as never };",
 						},
 					],
 				},
