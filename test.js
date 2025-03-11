@@ -320,6 +320,11 @@ export default {
 							arg: "type Func = { (a: string): number };",
 							expect: "type Func = { (a: string): number };",
 						},
+						{
+							name: "Object literal",
+							arg: "let a = { value: null, prev: null, next: null as never };",
+							expect: "let a = { value: null, prev: null, next: null as never };",
+						},
 					],
 				},
 			],
