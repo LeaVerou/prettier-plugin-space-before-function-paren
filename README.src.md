@@ -30,5 +30,4 @@ All you need to do is actually include it in your Prettier config:
 Current version is a proof of concept, please try it out and give feedback!
 
 Things not handled yet:
-- Function with type parameters (a.k.a. generic functions)
-- Computed method names (in classes and objects)
+- Computed object method names in TS

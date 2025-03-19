@@ -1027,5 +1027,4 @@ let a = { value: null, prev: null, next: null as never };
 Current version is a proof of concept, please try it out and give feedback!
 
 Things not handled yet:
-- Function with type parameters (a.k.a. generic functions)
-- Computed method names (in classes and objects)
+- Computed object method names in TS
