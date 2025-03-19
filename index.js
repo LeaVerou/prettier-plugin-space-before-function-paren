@@ -1,6 +1,9 @@
 import babelPlugin from "prettier/plugins/babel";
 import estreePlugin from "prettier/plugins/estree";
 import typescriptPlugin from "prettier/plugins/typescript";
+import { builders } from "prettier/doc";
+
+const { group } = builders;
 
 export const parsers = {
 	...babelPlugin.parsers,
@@ -41,12 +44,12 @@ export const printers = {
 				let contents = findContents(doc);
 				if (contents) {
 					// Open paren is always the second item in the contents array
-					contents[1] = " (";
+					contents[1] = group([" ", "("]);
 				}
 				else if (node.type === "Identifier" && !parent?.computed) {
 					// Object method in TypeScript. `doc` is already an array where the first item is the method name.
 					// TODO: Properly handle computed object methods. We should get `[methodName] () {...}`, not `[methodName ] () {...}`
-					doc[0] += " ";
+					doc[0] = group([doc[0], " "]);
 				}
 
 				return doc;
