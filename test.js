@@ -42,9 +42,8 @@ export default {
 						},
 						{
 							name: "Computed object methods",
-							arg: "const foo = {\n\t[methodName]() {}\n};",
-							expect: "const foo = {\n\t[methodName] () {}\n};",
-							skip: true,
+							arg: "const foo = {\n\t[methodName]() {\n\t\treturn 42;\n\t}\n};",
+							expect: "const foo = {\n\t[methodName] () {\n\t\treturn 42;\n\t}\n};",
 						},
 						{
 							name: "Object getters",
@@ -73,9 +72,8 @@ export default {
 						},
 						{
 							name: "Computed class methods",
-							arg: "class Foo {\n\t[methodName]() {}\n}",
-							expect: "class Foo {\n\t[methodName] () {}\n}",
-							skip: true,
+							arg: "class Foo {\n\t[methodName]() {\n\t\treturn 42;\n\t}\n}",
+							expect: "class Foo {\n\t[methodName] () {\n\t\treturn 42;\n\t}\n}",
 						},
 						{
 							name: "Static class methods",
@@ -173,8 +171,8 @@ export default {
 						},
 						{
 							name: "Computed object methods",
-							arg: "const foo = {\n\t[methodName](): void {}\n};",
-							expect: "const foo = {\n\t[methodName] (): void {}\n};",
+							arg: "const foo = {\n\t[methodName](): void {\n\t\treturn;\n\t}\n};",
+							expect: "const foo = {\n\t[methodName] (): void {\n\t\treturn;\n\t}\n};",
 							skip: true,
 						},
 						{
@@ -231,7 +229,6 @@ export default {
 							name: "Optional class methods",
 							arg: "class Foo {\n\tmethod?(a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
 							expect: "class Foo {\n\tmethod? (a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
-							skip: true,
 						},
 						{
 							name: "Class getters",
@@ -245,15 +242,13 @@ export default {
 						},
 						{
 							name: "Computed class methods",
-							arg: "class Foo {\n\t[methodName](): void {}\n}",
-							expect: "class Foo {\n\t[methodName] (): void {}\n}",
-							skip: true,
+							arg: "class Foo {\n\t[methodName](): void {\n\t\treturn;\n\t}\n}",
+							expect: "class Foo {\n\t[methodName] (): void {\n\t\treturn;\n\t}\n}",
 						},
 						{
 							name: "Class methods with type parameters",
 							arg: "class Foo {\n\tmethod<T>(a: T): T {\n\t\treturn a;\n\t}\n}",
 							expect: "class Foo {\n\tmethod<T> (a: T): T {\n\t\treturn a;\n\t}\n}",
-							skip: true,
 						},
 						{
 							name: "Generator functions",
@@ -269,7 +264,6 @@ export default {
 							name: "Function with type parameters",
 							arg: "function foo<T>(arg: T): T {\n\treturn arg;\n}",
 							expect: "function foo<T> (arg: T): T {\n\treturn arg;\n}",
-							skip: true,
 						},
 						{
 							name: "Named exported functions",
