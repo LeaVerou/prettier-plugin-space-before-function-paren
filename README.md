@@ -98,6 +98,26 @@ const foo = {
 };
 ```
 
+### Computed object methods
+
+```js
+const foo = {
+	[methodName]() {
+		return 42;
+	}
+};
+```
+
+becomes:
+
+```js
+const foo = {
+	[methodName] () {
+		return 42;
+	}
+};
+```
+
 ### Object getters
 
 ```js
@@ -196,6 +216,26 @@ becomes:
 class Foo {
 	async method (a, b) {
 		return a + b;
+	}
+}
+```
+
+### Computed class methods
+
+```js
+class Foo {
+	[methodName]() {
+		return 42;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+	[methodName] () {
+		return 42;
 	}
 }
 ```
@@ -657,6 +697,26 @@ class Foo {
 }
 ```
 
+### Optional class methods
+
+```ts
+class Foo {
+	method?(a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	method? (a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
 ### Class getters
 
 ```ts
@@ -697,6 +757,46 @@ class Foo {
 }
 ```
 
+### Computed class methods
+
+```ts
+class Foo {
+	[methodName](): void {
+		return;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	[methodName] (): void {
+		return;
+	}
+}
+```
+
+### Class methods with type parameters
+
+```ts
+class Foo {
+	method<T>(a: T): T {
+		return a;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	method<T> (a: T): T {
+		return a;
+	}
+}
+```
+
 ### Generator functions
 
 ```ts
@@ -726,6 +826,22 @@ becomes:
 ```ts
 interface Foo {
 	method (a: number, b: number): number;
+}
+```
+
+### Function with type parameters
+
+```ts
+function foo<T>(arg: T): T {
+	return arg;
+}
+```
+
+becomes:
+
+```ts
+function foo<T> (arg: T): T {
+	return arg;
 }
 ```
 
@@ -893,11 +1009,22 @@ becomes:
 type Func = { (a: string): number };
 ```
 
+### Object literal
+
+```ts
+let a = { value: null, prev: null, next: null as never };
+```
+
+becomes:
+
+```ts
+let a = { value: null, prev: null, next: null as never };
+```
+
 
 ## Status
 
 Current version is a proof of concept, please try it out and give feedback!
 
 Things not handled yet:
-- Function with type parameters (a.k.a. generic functions)
-- Computed method names (in classes and objects)
+- Computed object method names in TS

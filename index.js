@@ -1,6 +1,9 @@
 import babelPlugin from "prettier/plugins/babel";
 import estreePlugin from "prettier/plugins/estree";
 import typescriptPlugin from "prettier/plugins/typescript";
+import { builders } from "prettier/doc";
+
+const { group } = builders;
 
 export const parsers = {
 	...babelPlugin.parsers,
@@ -30,21 +33,55 @@ export const printers = {
 			].includes(node.type) || 
 			// Handle object methods in TypeScript
 			(node.type === "Identifier" && parent?.type === "Property" && (parent.method || parent.kind === "get" || parent.kind === "set"))) {
-				if (node.typeParameters || node.computed || node.optional) {
-					// TODO: Add space after the closing bracket and/or question mark, not name
-					// We should get `[methodName] () {...}`, not `[methodName ] () {...}`
-					// We should get `foo<T> () {...}`, not `foo <T> {...}`
-					// We should get `foo? () {...}`, not `foo ?() {...}`
+				// Skip anonymous functions (they are already formatted properly)
+				if (node.type === "FunctionExpression" && !node.id) {
+					return estreePlugin.printers.estree.print(path, options, print);
 				}
-				else {
-					node = node.type === "Identifier" ? node : node.id ?? node.key;
-					if (node?.name) {
-						node.name += " ";
-					}
+
+				let doc = estreePlugin.printers.estree.print(path, options, print);
+
+				// Find the first "(" and add a space before it
+				let contents = findContents(doc);
+				if (contents) {
+					// Open paren is always the second item in the contents array
+					contents[1] = group([" ", "("]);
 				}
+				else if (node.type === "Identifier" && !parent?.computed) {
+					// Object method in TypeScript. `doc` is already an array where the first item is the method name.
+					// TODO: Properly handle computed object methods. We should get `[methodName] () {...}`, not `[methodName ] () {...}`
+					doc[0] = group([doc[0], " "]);
+				}
+
+				return doc;
 			}
 
 			return estreePlugin.printers.estree.print(path, options, print);
 		},
 	},
 };
+
+// Recursively find the (possibly nested) array with the first "(" in the doc produced by prettier
+function findContents (doc) {
+	if (!doc) {
+		return null;
+	}
+
+	if (doc.type === "group") {
+		return findContents(doc.contents);
+	}
+
+	if (Array.isArray(doc)) {
+		if (doc.includes("(")) {
+			return doc;
+		}
+
+		for (let item of doc) {
+			let contents = findContents(item);
+			if (contents) {
+				return contents;
+			}
+		}
+	}
+
+	return null;
+}
