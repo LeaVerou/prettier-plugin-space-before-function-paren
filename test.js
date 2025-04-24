@@ -66,9 +66,19 @@ export default {
 							expect: "class Foo {\n\tmethod (a, b) {\n\t\treturn a + b;\n\t}\n}",
 						},
 						{
+							name: "Private class methods",
+							arg: "class Foo {\n\t#method(a, b) {\n\t\treturn a + b;\n\t}\n}",
+							expect: "class Foo {\n\t#method (a, b) {\n\t\treturn a + b;\n\t}\n}",
+						},
+						{
 							name: "Async class methods",
 							arg: "class Foo {\n\tasync method(a, b) {\n\t\treturn a + b;\n\t}\n}",
 							expect: "class Foo {\n\tasync method (a, b) {\n\t\treturn a + b;\n\t}\n}",
+						},
+						{
+							name: "Private async class methods",
+							arg: "class Foo {\n\tasync #method(a, b) {\n\t\treturn a + b;\n\t}\n}",
+							expect: "class Foo {\n\tasync #method (a, b) {\n\t\treturn a + b;\n\t}\n}",
 						},
 						{
 							name: "Computed class methods",
@@ -81,14 +91,29 @@ export default {
 							expect: "class Foo {\n\tstatic method (a, b) {\n\t\treturn a + b;\n\t}\n}",
 						},
 						{
+							name: "Private static class methods",
+							arg: "class Foo {\n\tstatic #method(a, b) {\n\t\treturn a + b;\n\t}\n}",
+							expect: "class Foo {\n\tstatic #method (a, b) {\n\t\treturn a + b;\n\t}\n}",
+						},
+						{
 							name: "Class getters",
 							arg: "class Foo {\n\tget foo() {\n\t\treturn true;\n\t}\n}",
 							expect: "class Foo {\n\tget foo () {\n\t\treturn true;\n\t}\n}",
 						},
 						{
+							name: "Private class getters",
+							arg: "class Foo {\n\tget #foo() {\n\t\treturn true;\n\t}\n}",
+							expect: "class Foo {\n\tget #foo () {\n\t\treturn true;\n\t}\n}",
+						},
+						{
 							name: "Class setters",
 							arg: "class Foo {\n\tset foo(value) {\n\t\tthis._foo = value;\n\t}\n}",
 							expect: "class Foo {\n\tset foo (value) {\n\t\tthis._foo = value;\n\t}\n}",
+						},
+						{
+							name: "Private class setters",
+							arg: "class Foo {\n\tset #foo(value) {\n\t\tthis._foo = value;\n\t}\n}",
+							expect: "class Foo {\n\tset #foo (value) {\n\t\tthis._foo = value;\n\t}\n}",
 						},
 						{
 							name: "Generator functions",
@@ -211,9 +236,14 @@ export default {
 							expect: "abstract class Foo {\n\tabstract method (a: number, b: number): number;\n}",
 						},
 						{
-							name: "Private class methods",
+							name: "Private class methods (access modifier)",
 							arg: "class Foo {\n\tprivate method(a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
 							expect: "class Foo {\n\tprivate method (a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
+						},
+						{
+							name: "Private class methods",
+							arg: "class Foo {\n\t#method(a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
+							expect: "class Foo {\n\t#method (a: number, b: number): number {\n\t\treturn a + b;\n\t}\n}",
 						},
 						{
 							name: "Protected class methods",
@@ -236,9 +266,19 @@ export default {
 							expect: "class Foo {\n\tget foo (): boolean {\n\t\treturn true;\n\t}\n}",
 						},
 						{
+							name: "Private class getters",
+							arg: "class Foo {\n\tget #foo(): boolean {\n\t\treturn true;\n\t}\n}",
+							expect: "class Foo {\n\tget #foo (): boolean {\n\t\treturn true;\n\t}\n}",
+						},
+						{
 							name: "Class setters",
 							arg: "class Foo {\n\tset foo(value: boolean) {\n\t\tthis._foo = value;\n\t}\n}",
 							expect: "class Foo {\n\tset foo (value: boolean) {\n\t\tthis._foo = value;\n\t}\n}",
+						},
+						{
+							name: "Private class setters",
+							arg: "class Foo {\n\tset #foo(value: boolean) {\n\t\tthis._foo = value;\n\t}\n}",
+							expect: "class Foo {\n\tset #foo (value: boolean) {\n\t\tthis._foo = value;\n\t}\n}",
 						},
 						{
 							name: "Computed class methods",

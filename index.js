@@ -26,6 +26,7 @@ export const printers = {
 				"ObjectMethod",
 				"MethodDefinition",
 				"ClassMethod",
+				"ClassPrivateMethod",
 				// TypeScript node types
 				"TSMethodSignature",
 				"TSDeclareFunction",

@@ -200,6 +200,26 @@ class Foo {
 }
 ```
 
+### Private class methods
+
+```js
+class Foo {
+	#method(a, b) {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+	#method (a, b) {
+		return a + b;
+	}
+}
+```
+
 ### Async class methods
 
 ```js
@@ -215,6 +235,26 @@ becomes:
 ```js
 class Foo {
 	async method (a, b) {
+		return a + b;
+	}
+}
+```
+
+### Private async class methods
+
+```js
+class Foo {
+	async #method(a, b) {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+	async #method (a, b) {
 		return a + b;
 	}
 }
@@ -260,6 +300,26 @@ class Foo {
 }
 ```
 
+### Private static class methods
+
+```js
+class Foo {
+	static #method(a, b) {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+	static #method (a, b) {
+		return a + b;
+	}
+}
+```
+
 ### Class getters
 
 ```js
@@ -280,6 +340,26 @@ class Foo {
 }
 ```
 
+### Private class getters
+
+```js
+class Foo {
+	get #foo() {
+		return true;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+	get #foo () {
+		return true;
+	}
+}
+```
+
 ### Class setters
 
 ```js
@@ -295,6 +375,26 @@ becomes:
 ```js
 class Foo {
 	set foo (value) {
+		this._foo = value;
+	}
+}
+```
+
+### Private class setters
+
+```js
+class Foo {
+	set #foo(value) {
+		this._foo = value;
+	}
+}
+```
+
+becomes:
+
+```js
+class Foo {
+	set #foo (value) {
 		this._foo = value;
 	}
 }
@@ -637,7 +737,7 @@ abstract class Foo {
 }
 ```
 
-### Private class methods
+### Private class methods (access modifier)
 
 ```ts
 class Foo {
@@ -652,6 +752,26 @@ becomes:
 ```ts
 class Foo {
 	private method (a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+### Private class methods
+
+```ts
+class Foo {
+	#method(a: number, b: number): number {
+		return a + b;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	#method (a: number, b: number): number {
 		return a + b;
 	}
 }
@@ -737,6 +857,26 @@ class Foo {
 }
 ```
 
+### Private class getters
+
+```ts
+class Foo {
+	get #foo(): boolean {
+		return true;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	get #foo (): boolean {
+		return true;
+	}
+}
+```
+
 ### Class setters
 
 ```ts
@@ -752,6 +892,26 @@ becomes:
 ```ts
 class Foo {
 	set foo (value: boolean) {
+		this._foo = value;
+	}
+}
+```
+
+### Private class setters
+
+```ts
+class Foo {
+	set #foo(value: boolean) {
+		this._foo = value;
+	}
+}
+```
+
+becomes:
+
+```ts
+class Foo {
+	set #foo (value: boolean) {
 		this._foo = value;
 	}
 }
